@@ -1,0 +1,15 @@
+line-length = 160
+
+[lint]
+select = ["E", "F", "I"]
+ignore = ["E501", "E101"]
+
+[lint.isort]
+known-first-party = ["app"]
+
+[format]
+quote-style = "single"
+indent-style = "space"
+
+docstring-code-format = true
+docstring-code-line-length = 160
