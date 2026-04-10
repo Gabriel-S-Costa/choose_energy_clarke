@@ -7,6 +7,7 @@ from app.core.config import settings
 
 class Database:
     """Database connection class."""
+
     def __init__(self):
         self._engine = create_engine(
             url=settings.DB_URL,

@@ -1,0 +1,19 @@
+import uuid
+from typing import Protocol, runtime_checkable
+
+from app.modules.suppliers.models import Supplier
+
+
+@runtime_checkable
+class ISupplierReporsitory(Protocol):
+    def get_all_suppliers(self) -> list[Supplier]: ...
+
+    def get_supplier_by_id(self, id: int) -> Supplier: ...
+
+    def get_supplier_by_code(self, code: uuid.UUID) -> Supplier: ...
+
+    def create_supplier(self, supplier: Supplier) -> Supplier: ...
+
+    def update_supplier(self, supplier: Supplier) -> Supplier: ...
+
+    def delete_supplier(self, supplier: Supplier) -> None: ...
