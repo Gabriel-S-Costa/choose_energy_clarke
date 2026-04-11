@@ -7,11 +7,7 @@ from app.modules.suppliers.service import SupplierService
 from app.shared.interfaces import ISupplierReporsitory
 
 
-def get_db_session():
-    return db.get_session_conn()
-
-
-def get_supplier_repo(session: Session = Depends(get_db_session)) -> ISupplierReporsitory:
+def get_supplier_repo(session: Session = Depends(db.get_session_conn)) -> ISupplierReporsitory:
     return SupplierRepository(session)
 
 

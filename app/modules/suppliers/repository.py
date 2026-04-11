@@ -1,5 +1,6 @@
 import uuid
 
+from sqlalchemy.orm import selectinload
 from sqlmodel import Session
 
 from .models import Supplier
@@ -9,8 +10,11 @@ class SupplierRepository:
     def __init__(self, session: Session):
         self.session = session
 
-    def get_all_suppliers(self) -> list[Supplier]:
-        return self.session.query(Supplier).all()
+    def get_all_suppliers(self, offset: int = 0, limit: int = 10) -> tuple[list[Supplier], int]:
+        query = self.session.query(Supplier).options(selectinload(Supplier.states))
+        total = query.count()
+        items = query.offset(offset).limit(limit).all()
+        return items, total
 
     def get_supplier_by_id(self, id: int) -> Supplier:
         return self.session.query(Supplier).filter(Supplier.id == id).first()
