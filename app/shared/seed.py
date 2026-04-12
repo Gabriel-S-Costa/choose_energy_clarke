@@ -110,8 +110,8 @@ def seed_database():
         for supplier_data in SUPPLIERS_DATA:
             supplier = Supplier(
                 name=supplier_data['name'],
-                cost_kwh_ml=supplier_data.get('cost_kwh_ml'),
-                cost_kwh_gd=supplier_data.get('cost_kwh_gd'),
+                cost_kwh_ml=supplier_data['cost_kwh_ml'] if supplier_data.get('cost_kwh_ml') is not None else None,  # Custo já em centavos
+                cost_kwh_gd=supplier_data['cost_kwh_gd'] if supplier_data.get('cost_kwh_gd') is not None else None,  # Custo já em centavos
                 is_active=supplier_data['is_active'],
                 type=supplier_data.get('type'),
             )

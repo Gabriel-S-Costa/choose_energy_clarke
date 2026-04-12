@@ -1,4 +1,3 @@
-from app.modules.suppliers.enums import SupplierTypes
 from app.modules.suppliers.models import Supplier
 from app.shared.interfaces import ISupplierReporsitory
 from app.shared.utils import truncate
@@ -34,25 +33,22 @@ class SupplierService:
             offers = []
 
             if supplier.is_distributed_generation:
-                sup_type = SupplierTypes.DISTRIBUTED_GENERATION.value
-                dg_offer = self._calculate_costs(consumption, state_base_cost, sup_type, supplier.cost_kwh_gd)
-                offers.append(dg_offer)
+                supplier_cost_per_kwl = supplier.cost_kwh_gd
+            elif supplier.is_free_market:
+                supplier_cost_per_kwl = supplier.cost_kwh_ml
+            elif supplier.is_both:
+                supplier_cost_per_kwl = supplier.cost_kwh_gd + supplier.cost_kwh_ml
 
-                available_types.add(sup_type)
-                if sup_type not in estimated_savings_per_type or dg_offer['estimated_savings'] > estimated_savings_per_type[sup_type]:
-                    estimated_savings_per_type[sup_type] = dg_offer['estimated_savings']
+            supplier_type = supplier.type
+            offer = self._calculate_offer_costs(consumption, state_base_cost, supplier_type, supplier_cost_per_kwl)
+            estimated_savings = self._ordering_estimated_savings(supplier_type, offer['estimated_savings'], estimated_savings_per_type)
 
-            if supplier.is_free_market:
-                sup_type = SupplierTypes.FREE_MARKET.value
-                fm_offer = self._calculate_costs(consumption, state_base_cost, sup_type, supplier.cost_kwh_ml)
-                offers.append(fm_offer)
+            available_types.add(supplier_type)
+            offers.append(offer)
+            estimated_savings_per_type.update(estimated_savings)
 
-                available_types.add(sup_type)
-                if sup_type not in estimated_savings_per_type or fm_offer['estimated_savings'] > estimated_savings_per_type[sup_type]:
-                    estimated_savings_per_type[sup_type] = fm_offer['estimated_savings']
-
-            supp_dict['offers'] = offers
             if offers:
+                supp_dict['offers'] = offers
                 supplier_results.append(supp_dict)
 
         return {
@@ -62,7 +58,7 @@ class SupplierService:
             'suppliers': supplier_results,
         }
 
-    def _calculate_costs(self, consumption: int, state_base_cost: int, supplier_type: str, supplier_cost: int) -> dict:
+    def _calculate_offer_costs(self, consumption: int, state_base_cost: int, supplier_type: str, supplier_cost: int) -> dict:
         estimated_cost = consumption * supplier_cost
         estimated_savings = state_base_cost - estimated_cost
         percentage_savings = estimated_savings / state_base_cost if state_base_cost else 0.0
@@ -74,3 +70,7 @@ class SupplierService:
             'estimated_savings': estimated_savings,
             'percentage_savings': truncate(percentage_savings * 100),
         }
+
+    def _ordering_estimated_savings(self, supplier_type: str, estimated_savings: int, current_savings_dict: dict) -> dict[str, int]:
+        current_max = current_savings_dict.get(supplier_type, 0)
+        return {supplier_type: max(current_max, estimated_savings)}

@@ -12,3 +12,9 @@ def truncate(x, d: int = 2):
         except Exception:
             return int(x * (10.0**d)) / (10.0**d)
     return x
+
+
+def to_cents(value: int | float) -> int:
+    """Converte um valor monetário (ex: Reais) para sua representação em centavos inteiros.
+    (Ex: R$ 82 -> 8200)"""
+    return int(max(Decimal(str(value)) * 100, 0))

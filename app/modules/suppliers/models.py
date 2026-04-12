@@ -33,11 +33,15 @@ class Supplier(SQLModel, table=True):
 
     @property
     def is_distributed_generation(self) -> bool:
-        return self.cost_kwh_gd is not None and self.type in (SupplierTypes.DISTRIBUTED_GENERATION.value, SupplierTypes.BOTH.value)
+        return self.cost_kwh_gd is not None and self.type == SupplierTypes.DISTRIBUTED_GENERATION.value
 
     @property
     def is_free_market(self) -> bool:
-        return self.cost_kwh_ml is not None and self.type in (SupplierTypes.FREE_MARKET.value, SupplierTypes.BOTH.value)
+        return self.cost_kwh_ml is not None and self.type == SupplierTypes.FREE_MARKET.value
+
+    @property
+    def is_both(self) -> bool:
+        return self.cost_kwh_gd is not None and self.cost_kwh_ml is not None and self.type == SupplierTypes.BOTH.value
 
 
 class State(SQLModel, table=True):
