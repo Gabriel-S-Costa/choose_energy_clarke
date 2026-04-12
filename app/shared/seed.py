@@ -37,12 +37,47 @@ STATES_DATA = [
 ]
 
 SUPPLIERS_DATA = [
-    {'name': 'EcoPower Soluções', 'type': SupplierTypes.FREE_MARKET, 'cost_kwh_ml': 82, 'cost_kwh_gd': None, 'is_active': True, 'state_ufs': ['SP', 'MG', 'RJ']},
-    {'name': 'Vento Sul Energia', 'type': SupplierTypes.FREE_MARKET, 'cost_kwh_ml': 75, 'cost_kwh_gd': None, 'is_active': True, 'state_ufs': ['RS', 'SC', 'PR']},
+    {
+        'name': 'EcoPower Soluções',
+        'type': SupplierTypes.FREE_MARKET,
+        'cost_kwh_ml': 82,
+        'cost_kwh_gd': None,
+        'is_active': True,
+        'state_ufs': ['SP', 'MG', 'RJ'],
+    },
+    {
+        'name': 'Vento Sul Energia',
+        'type': SupplierTypes.FREE_MARKET,
+        'cost_kwh_ml': 75,
+        'cost_kwh_gd': None,
+        'is_active': True,
+        'state_ufs': ['RS', 'SC', 'PR'],
+    },
     {'name': 'BioGen Brasil', 'type': SupplierTypes.FREE_MARKET, 'cost_kwh_ml': 90, 'cost_kwh_gd': None, 'is_active': True, 'state_ufs': ['SP', 'GO', 'MS']},
-    {'name': 'Luz do Sertão', 'type': SupplierTypes.DISTRIBUTED_GENERATION, 'cost_kwh_ml': None, 'cost_kwh_gd': 68, 'is_active': True, 'state_ufs': ['BA', 'CE', 'PE', 'RN']},
-    {'name': 'Amazonas Green Energy', 'type': SupplierTypes.DISTRIBUTED_GENERATION, 'cost_kwh_ml': None, 'cost_kwh_gd': 95, 'is_active': True, 'state_ufs': ['AM', 'PA']},
-    {'name': 'Delta Energia', 'type': SupplierTypes.DISTRIBUTED_GENERATION, 'cost_kwh_ml': None, 'cost_kwh_gd': 88, 'is_active': True, 'state_ufs': ['SP', 'ES', 'RJ']},
+    {
+        'name': 'Luz do Sertão',
+        'type': SupplierTypes.DISTRIBUTED_GENERATION,
+        'cost_kwh_ml': None,
+        'cost_kwh_gd': 68,
+        'is_active': True,
+        'state_ufs': ['BA', 'CE', 'PE', 'RN'],
+    },
+    {
+        'name': 'Amazonas Green Energy',
+        'type': SupplierTypes.DISTRIBUTED_GENERATION,
+        'cost_kwh_ml': None,
+        'cost_kwh_gd': 95,
+        'is_active': True,
+        'state_ufs': ['AM', 'PA'],
+    },
+    {
+        'name': 'Delta Energia',
+        'type': SupplierTypes.DISTRIBUTED_GENERATION,
+        'cost_kwh_ml': None,
+        'cost_kwh_gd': 88,
+        'is_active': True,
+        'state_ufs': ['SP', 'ES', 'RJ'],
+    },
     {
         'name': 'Cerrado Volts',
         'type': SupplierTypes.DISTRIBUTED_GENERATION,
@@ -53,7 +88,14 @@ SUPPLIERS_DATA = [
     },
     {'name': 'Pampa Watts', 'type': SupplierTypes.FREE_MARKET, 'cost_kwh_ml': 77, 'cost_kwh_gd': None, 'is_active': True, 'state_ufs': ['RS']},
     {'name': 'Norte Luz', 'type': SupplierTypes.FREE_MARKET, 'cost_kwh_ml': 92, 'cost_kwh_gd': None, 'is_active': True, 'state_ufs': ['RR', 'AP', 'AC']},
-    {'name': 'Atlântica Renováveis', 'type': SupplierTypes.DISTRIBUTED_GENERATION, 'cost_kwh_ml': None, 'cost_kwh_gd': 84, 'is_active': True, 'state_ufs': ['AL', 'SE', 'PB']},
+    {
+        'name': 'Atlântica Renováveis',
+        'type': SupplierTypes.DISTRIBUTED_GENERATION,
+        'cost_kwh_ml': None,
+        'cost_kwh_gd': 84,
+        'is_active': True,
+        'state_ufs': ['AL', 'SE', 'PB'],
+    },
     {'name': 'MegaPower Híbrida', 'type': SupplierTypes.BOTH, 'cost_kwh_ml': 80, 'cost_kwh_gd': 70, 'is_active': True, 'state_ufs': ['SP', 'RJ', 'MG', 'DF']},
 ]
 

@@ -10,6 +10,7 @@ from alembic import context
 sys.path.insert(0, dirname(dirname(abspath(__file__))))
 
 from app.core.config import settings
+from app.modules.suppliers.models import State, Supplier, SupplierStateLink  # noqa
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -20,7 +21,6 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-from app.modules.suppliers.models import Supplier, State, SupplierStateLink
 # add your model's MetaData object here
 # for 'autogenerate' support
 # from myapp import mymodel

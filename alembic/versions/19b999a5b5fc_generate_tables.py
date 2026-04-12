@@ -1,16 +1,12 @@
 """Generate tables
 
 Revision ID: 19b999a5b5fc
-Revises: 
+Revises:
 Create Date: 2026-04-11 22:50:57.791405
 
 """
+
 from typing import Sequence, Union
-
-from alembic import op
-import sqlalchemy as sa
-import sqlmodel
-
 
 # revision identifiers, used by Alembic.
 revision: str = '19b999a5b5fc'
