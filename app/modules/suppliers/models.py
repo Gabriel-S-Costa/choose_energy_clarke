@@ -3,6 +3,8 @@ from datetime import datetime, timezone
 
 from sqlmodel import Field, Relationship, SQLModel
 
+from .enums import SupplierTypes
+
 
 class SupplierStateLink(SQLModel, table=True):
     __tablename__ = 'supplier_state'
@@ -28,6 +30,14 @@ class Supplier(SQLModel, table=True):
     avg_rating: float = Field(default=0.0)
     is_active: bool = Field(default=True)
     states: list['State'] = Relationship(back_populates='suppliers', link_model=SupplierStateLink)
+
+    @property
+    def is_distributed_generation(self) -> bool:
+        return self.cost_kwh_gd is not None and self.type in (SupplierTypes.DISTRIBUTED_GENERATION.value, SupplierTypes.BOTH.value)
+
+    @property
+    def is_free_market(self) -> bool:
+        return self.cost_kwh_ml is not None and self.type in (SupplierTypes.FREE_MARKET.value, SupplierTypes.BOTH.value)
 
 
 class State(SQLModel, table=True):

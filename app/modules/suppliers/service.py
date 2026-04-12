@@ -1,6 +1,7 @@
 from app.modules.suppliers.enums import SupplierTypes
 from app.modules.suppliers.models import Supplier
 from app.shared.interfaces import ISupplierReporsitory
+from app.shared.utils import truncate
 
 
 class SupplierService:
@@ -32,45 +33,23 @@ class SupplierService:
 
             offers = []
 
-            if supplier.cost_kwh_gd is not None and supplier.type in (SupplierTypes.DISTRIBUTED_GENERATION.value, SupplierTypes.BOTH):
-                estimated_cost = consumption * supplier.cost_kwh_gd
-                estimated_savings = state_base_cost - estimated_cost
-                percentage_savings = estimated_savings / state_base_cost if state_base_cost else 0.0
-
+            if supplier.is_distributed_generation:
                 sup_type = SupplierTypes.DISTRIBUTED_GENERATION.value
-                offers.append(
-                    {
-                        'type': sup_type,
-                        'kwl_cost': supplier.cost_kwh_gd,
-                        'estimated_cost': float(estimated_cost),
-                        'estimated_savings': float(estimated_savings),
-                        'percentage_savings': percentage_savings,
-                    }
-                )
+                dg_offer = self._calculate_costs(consumption, state_base_cost, sup_type, supplier.cost_kwh_gd)
+                offers.append(dg_offer)
 
                 available_types.add(sup_type)
-                if sup_type not in estimated_savings_per_type or estimated_savings > estimated_savings_per_type[sup_type]:
-                    estimated_savings_per_type[sup_type] = estimated_savings
+                if sup_type not in estimated_savings_per_type or dg_offer['estimated_savings'] > estimated_savings_per_type[sup_type]:
+                    estimated_savings_per_type[sup_type] = dg_offer['estimated_savings']
 
-            if supplier.cost_kwh_ml is not None and supplier.type in (SupplierTypes.FREE_MARKET.value, SupplierTypes.BOTH):
-                estimated_cost = consumption * supplier.cost_kwh_ml
-                estimated_savings = state_base_cost - estimated_cost
-                percentage_savings = estimated_savings / state_base_cost if state_base_cost else 0.0
-
+            if supplier.is_free_market:
                 sup_type = SupplierTypes.FREE_MARKET.value
-                offers.append(
-                    {
-                        'type': sup_type,
-                        'kwl_cost': supplier.cost_kwh_ml,
-                        'estimated_cost': float(estimated_cost),
-                        'estimated_savings': float(estimated_savings),
-                        'percentage_savings': percentage_savings,
-                    }
-                )
+                fm_offer = self._calculate_costs(consumption, state_base_cost, sup_type, supplier.cost_kwh_ml)
+                offers.append(fm_offer)
 
                 available_types.add(sup_type)
-                if sup_type not in estimated_savings_per_type or estimated_savings > estimated_savings_per_type[sup_type]:
-                    estimated_savings_per_type[sup_type] = estimated_savings
+                if sup_type not in estimated_savings_per_type or fm_offer['estimated_savings'] > estimated_savings_per_type[sup_type]:
+                    estimated_savings_per_type[sup_type] = fm_offer['estimated_savings']
 
             supp_dict['offers'] = offers
             if offers:
@@ -81,4 +60,17 @@ class SupplierService:
             'available_types': list(available_types),
             'estimated_savings_per_type': estimated_savings_per_type,
             'suppliers': supplier_results,
+        }
+
+    def _calculate_costs(self, consumption: int, state_base_cost: int, supplier_type: str, supplier_cost: int) -> dict:
+        estimated_cost = consumption * supplier_cost
+        estimated_savings = state_base_cost - estimated_cost
+        percentage_savings = estimated_savings / state_base_cost if state_base_cost else 0.0
+
+        return {
+            'type': supplier_type,
+            'kwl_cost': supplier_cost,
+            'estimated_cost': estimated_cost,
+            'estimated_savings': estimated_savings,
+            'percentage_savings': truncate(percentage_savings * 100),
         }
