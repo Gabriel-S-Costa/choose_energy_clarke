@@ -1,7 +1,5 @@
-import uuid
-
 from sqlalchemy.orm import selectinload
-from sqlmodel import Session
+from sqlmodel import Session, select
 
 from .models import State, Supplier
 
@@ -11,35 +9,14 @@ class SupplierRepository:
         self.session = session
 
     def get_all_suppliers(self, offset: int = 0, limit: int = 10) -> tuple[list[Supplier], int]:
-        query = self.session.query(Supplier).options(selectinload(Supplier.states))
-        total = query.count()
-        items = query.offset(offset).limit(limit).all()
-        return items, total
-
-    def get_supplier_by_id(self, id: int) -> Supplier:
-        return self.session.query(Supplier).filter(Supplier.id == id).first()
-
-    def get_supplier_by_code(self, code: uuid.UUID) -> Supplier:
-        return self.session.query(Supplier).filter(Supplier.code == code).first()
-
-    def create_supplier(self, supplier: Supplier) -> Supplier:
-        self.session.add(supplier)
-        self.session.commit()
-        self.session.refresh(supplier)
-        return supplier
-
-    def update_supplier(self, supplier: Supplier) -> Supplier:
-        self.session.add(supplier)
-        self.session.commit()
-        self.session.refresh(supplier)
-        return supplier
-
-    def delete_supplier(self, supplier: Supplier) -> None:
-        self.session.delete(supplier)
-        self.session.commit()
+        query = select(Supplier).options(selectinload(Supplier.states)).order_by(Supplier.name).offset(offset).limit(limit)
+        result = self.session.exec(query)
+        total = result.all()
+        return total, len(total)
 
     def search_suppliers_by_state(self, uf: str) -> tuple[State | None, list[Supplier]]:
-        state = self.session.query(State).options(selectinload(State.suppliers)).filter(State.uf == uf).first()
+        query = select(State).options(selectinload(State.suppliers)).filter(State.uf == uf)
+        state = self.session.exec(query).first()
         if not state:
             return None, []
         return state, state.suppliers

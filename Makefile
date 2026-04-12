@@ -6,3 +6,6 @@ check:
 
 lint:
 	ruff check --fix && ruff format
+
+test:
+	pytest tests -vv -p no:warnings

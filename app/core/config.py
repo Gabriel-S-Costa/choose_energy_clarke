@@ -13,6 +13,7 @@ class Settings(BaseSettings):
 
     DB_URL: str
     ENV: str
+    ACCESS_TOKEN: str = 'clarke-energy-secret-token'
 
     DB_POOL_SIZE: int = 10
     DB_MAX_OVERFLOW: int = 20

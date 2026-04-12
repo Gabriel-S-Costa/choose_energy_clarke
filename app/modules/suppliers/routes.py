@@ -3,7 +3,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, Query
 
-from app.shared.dependencies import get_supplier_service
+from app.shared.dependencies import get_supplier_service, verify_request_token
 
 from .filters import FilterSupplierParams
 from .schemas import (
@@ -13,7 +13,7 @@ from .schemas import (
 )
 from .service import SupplierService
 
-router = APIRouter(prefix='/suppliers', tags=['suppliers'])
+router = APIRouter(prefix='/suppliers', tags=['suppliers'], dependencies=[Depends(verify_request_token)])
 
 
 @router.get('/', response_model=PaginatedSupplierResponse)

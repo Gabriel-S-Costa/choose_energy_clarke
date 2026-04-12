@@ -11,9 +11,6 @@ class SupplierService:
         offset = (page - 1) * size
         return self.reporitory.get_all_suppliers(offset=offset, limit=size)
 
-    def get_supplier_by_id(self, id: int) -> Supplier:
-        return self.reporitory.get_supplier_by_id(id)
-
     def search_suppliers(self, query) -> dict:
         state, suppliers = self.reporitory.search_suppliers_by_state(query.uf)
         if not state:
