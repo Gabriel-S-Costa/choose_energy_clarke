@@ -8,7 +8,6 @@ class SupplierResponse(BaseModel):
 
     code: uuid.UUID
     name: str
-    kwl_cost: int
     type: str
     total_clients: int
     avg_rating: float
@@ -34,3 +33,22 @@ class PaginatedSupplierResponse(BaseModel):
 class SupplierSearchRequest(BaseModel):
     uf: str
     consumption: int
+
+
+class SupplierOfferResponse(BaseModel):
+    type: str
+    kwl_cost: int
+    estimated_cost: int
+    estimated_savings: int
+    percentage_savings: float
+
+
+class SupplierSearchItemResponse(SupplierResponse):
+    offers: list[SupplierOfferResponse]
+
+
+class SupplierSearchResultResponse(BaseModel):
+    state_base_cost: int
+    available_types: list[str]
+    estimated_savings_per_type: dict[str, int]
+    suppliers: list[SupplierSearchItemResponse]

@@ -37,22 +37,24 @@ STATES_DATA = [
 ]
 
 SUPPLIERS_DATA = [
-    {'name': 'EcoPower Soluções', 'kwl_cost': 82, 'is_active': True, 'type': SupplierTypes.FREE_MARKET, 'state_ufs': ['SP', 'MG', 'RJ']},
-    {'name': 'Vento Sul Energia', 'kwl_cost': 75, 'is_active': True, 'type': SupplierTypes.FREE_MARKET, 'state_ufs': ['RS', 'SC', 'PR']},
-    {'name': 'BioGen Brasil', 'kwl_cost': 90, 'is_active': True, 'type': SupplierTypes.FREE_MARKET, 'state_ufs': ['SP', 'GO', 'MS']},
-    {'name': 'Luz do Sertão', 'kwl_cost': 68, 'is_active': True, 'type': SupplierTypes.DISTRIBUTED_GENERATION, 'state_ufs': ['BA', 'CE', 'PE', 'RN']},
-    {'name': 'Amazonas Green Energy', 'kwl_cost': 95, 'is_active': True, 'type': SupplierTypes.DISTRIBUTED_GENERATION, 'state_ufs': ['AM', 'PA']},
-    {'name': 'Delta Energia', 'kwl_cost': 88, 'is_active': True, 'type': SupplierTypes.DISTRIBUTED_GENERATION, 'state_ufs': ['SP', 'ES', 'RJ']},
+    {'name': 'EcoPower Soluções', 'type': SupplierTypes.FREE_MARKET, 'cost_kwh_ml': 82, 'cost_kwh_gd': None, 'is_active': True, 'state_ufs': ['SP', 'MG', 'RJ']},
+    {'name': 'Vento Sul Energia', 'type': SupplierTypes.FREE_MARKET, 'cost_kwh_ml': 75, 'cost_kwh_gd': None, 'is_active': True, 'state_ufs': ['RS', 'SC', 'PR']},
+    {'name': 'BioGen Brasil', 'type': SupplierTypes.FREE_MARKET, 'cost_kwh_ml': 90, 'cost_kwh_gd': None, 'is_active': True, 'state_ufs': ['SP', 'GO', 'MS']},
+    {'name': 'Luz do Sertão', 'type': SupplierTypes.DISTRIBUTED_GENERATION, 'cost_kwh_ml': None, 'cost_kwh_gd': 68, 'is_active': True, 'state_ufs': ['BA', 'CE', 'PE', 'RN']},
+    {'name': 'Amazonas Green Energy', 'type': SupplierTypes.DISTRIBUTED_GENERATION, 'cost_kwh_ml': None, 'cost_kwh_gd': 95, 'is_active': True, 'state_ufs': ['AM', 'PA']},
+    {'name': 'Delta Energia', 'type': SupplierTypes.DISTRIBUTED_GENERATION, 'cost_kwh_ml': None, 'cost_kwh_gd': 88, 'is_active': True, 'state_ufs': ['SP', 'ES', 'RJ']},
     {
         'name': 'Cerrado Volts',
-        'kwl_cost': 80,
-        'is_active': False,  # Fornecedor inativo para testar filtros
         'type': SupplierTypes.DISTRIBUTED_GENERATION,
+        'cost_kwh_ml': None,
+        'cost_kwh_gd': 80,
+        'is_active': False,
         'state_ufs': ['DF', 'GO', 'TO'],
     },
-    {'name': 'Pampa Watts', 'kwl_cost': 77, 'is_active': True, 'type': SupplierTypes.FREE_MARKET, 'state_ufs': ['RS']},
-    {'name': 'Norte Luz', 'kwl_cost': 92, 'is_active': True, 'type': SupplierTypes.FREE_MARKET, 'state_ufs': ['RR', 'AP', 'AC']},
-    {'name': 'Atlântica Renováveis', 'kwl_cost': 84, 'is_active': True, 'type': SupplierTypes.DISTRIBUTED_GENERATION, 'state_ufs': ['AL', 'SE', 'PB']},
+    {'name': 'Pampa Watts', 'type': SupplierTypes.FREE_MARKET, 'cost_kwh_ml': 77, 'cost_kwh_gd': None, 'is_active': True, 'state_ufs': ['RS']},
+    {'name': 'Norte Luz', 'type': SupplierTypes.FREE_MARKET, 'cost_kwh_ml': 92, 'cost_kwh_gd': None, 'is_active': True, 'state_ufs': ['RR', 'AP', 'AC']},
+    {'name': 'Atlântica Renováveis', 'type': SupplierTypes.DISTRIBUTED_GENERATION, 'cost_kwh_ml': None, 'cost_kwh_gd': 84, 'is_active': True, 'state_ufs': ['AL', 'SE', 'PB']},
+    {'name': 'MegaPower Híbrida', 'type': SupplierTypes.BOTH, 'cost_kwh_ml': 80, 'cost_kwh_gd': 70, 'is_active': True, 'state_ufs': ['SP', 'RJ', 'MG', 'DF']},
 ]
 
 
@@ -66,9 +68,10 @@ def seed_database():
         for supplier_data in SUPPLIERS_DATA:
             supplier = Supplier(
                 name=supplier_data['name'],
-                kwl_cost=supplier_data['kwl_cost'],
+                cost_kwh_ml=supplier_data.get('cost_kwh_ml'),
+                cost_kwh_gd=supplier_data.get('cost_kwh_gd'),
                 is_active=supplier_data['is_active'],
-                type=supplier_data['type'],
+                type=supplier_data.get('type'),
             )
 
             supplier_states = supplier_data['state_ufs']

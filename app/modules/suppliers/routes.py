@@ -6,7 +6,11 @@ from fastapi import APIRouter, Depends, Query
 from app.shared.dependencies import get_supplier_service
 
 from .filters import FilterSupplierParams
-from .schemas import PaginatedSupplierResponse, SupplierResponse, SupplierSearchRequest
+from .schemas import (
+    PaginatedSupplierResponse,
+    SupplierSearchRequest,
+    SupplierSearchResultResponse,
+)
 from .service import SupplierService
 
 router = APIRouter(prefix='/suppliers', tags=['suppliers'])
@@ -26,6 +30,6 @@ async def get_suppliers(filter_query: Annotated[FilterSupplierParams, Query()], 
     }
 
 
-@router.get('/search', response_model=list[SupplierResponse])
+@router.get('/search', response_model=SupplierSearchResultResponse)
 async def search_suppliers(search_query: Annotated[SupplierSearchRequest, Query()], supplier_service: SupplierService = Depends(get_supplier_service)):
     return supplier_service.search_suppliers(search_query)

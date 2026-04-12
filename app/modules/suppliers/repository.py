@@ -3,7 +3,7 @@ import uuid
 from sqlalchemy.orm import selectinload
 from sqlmodel import Session
 
-from .models import Supplier
+from .models import State, Supplier
 
 
 class SupplierRepository:
@@ -37,3 +37,9 @@ class SupplierRepository:
     def delete_supplier(self, supplier: Supplier) -> None:
         self.session.delete(supplier)
         self.session.commit()
+
+    def search_suppliers_by_state(self, uf: str) -> tuple[State | None, list[Supplier]]:
+        state = self.session.query(State).options(selectinload(State.suppliers)).filter(State.uf == uf).first()
+        if not state:
+            return None, []
+        return state, state.suppliers

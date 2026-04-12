@@ -1,7 +1,7 @@
 import uuid
 from typing import Protocol, runtime_checkable
 
-from app.modules.suppliers.models import Supplier
+from app.modules.suppliers.models import State, Supplier
 
 
 @runtime_checkable
@@ -17,3 +17,5 @@ class ISupplierReporsitory(Protocol):
     def update_supplier(self, supplier: Supplier) -> Supplier: ...
 
     def delete_supplier(self, supplier: Supplier) -> None: ...
+
+    def search_suppliers_by_state(self, uf: str) -> tuple[State | None, list[Supplier]]: ...
