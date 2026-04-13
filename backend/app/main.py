@@ -11,11 +11,12 @@ app.include_router(suppliers_router)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=['http://localhost:5173'],
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=['*'],
+    allow_headers=['*'],
 )
+
 
 @app.exception_handler(AppBaseException)
 async def entity_error_handler(request: Request, exc: AppBaseException):
