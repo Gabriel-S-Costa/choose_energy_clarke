@@ -93,3 +93,9 @@ Para ajudar no fluxo de desenvolvimento, os seguintes comandos estão disponíve
 - `make check`: Verifica a formatação e roda o linter utilizando o Ruff.
 - `make lint`: Corrige problemas identificados pelo linter e formata o código automaticamente.
 - `make test`: Roda toda a suíte de testes com o pytest.
+
+## Para popular o banco de dados com o seed (apenas local)
+
+```bash
+python -m app.shared.seed
+```
