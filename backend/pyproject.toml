@@ -8,6 +8,7 @@ dependencies = [
     "alembic>=1.18.4",
     "fastapi[standard]>=0.135.3",
     "sqlmodel>=0.0.38",
+    "uvicorn>=0.44.0",
 ]
 
 [dependency-groups]

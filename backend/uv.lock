@@ -69,6 +69,7 @@ dependencies = [
     { name = "alembic" },
     { name = "fastapi", extra = ["standard"] },
     { name = "sqlmodel" },
+    { name = "uvicorn" },
 ]
 
 [package.dev-dependencies]
@@ -83,6 +84,7 @@ requires-dist = [
     { name = "alembic", specifier = ">=1.18.4" },
     { name = "fastapi", extras = ["standard"], specifier = ">=0.135.3" },
     { name = "sqlmodel", specifier = ">=0.0.38" },
+    { name = "uvicorn", specifier = ">=0.44.0" },
 ]
 
 [package.metadata.requires-dev]
