@@ -12,7 +12,7 @@ app.include_router(suppliers_router)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://choose-energy-clarke-frontend.vercel.app/", "http://localhost:5173"],
+    allow_origins=["https://choose-energy-clarke-frontend.vercel.app", "http://localhost:5173"],
     allow_credentials=True,
     allow_methods=['*'],
     allow_headers=['*'],
