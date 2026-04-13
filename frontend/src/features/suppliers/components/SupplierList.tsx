@@ -4,7 +4,7 @@ import { SupplierCard } from "@/features/suppliers/components/SupplierCard";
 import { SupplierSummary } from "@/features/suppliers/components/SupplierSummary";
 
 interface SupplierListProps {
-  supplierResponse: SupplierResponse;
+  supplierResponse?: SupplierResponse;
   isLoading: boolean;
   hasSearched: boolean;
 }
@@ -27,7 +27,7 @@ export const SupplierList: React.FC<SupplierListProps> = ({
     );
   }
 
-  if (hasSearched && supplierResponse.suppliers.length === 0) {
+  if (hasSearched && (!supplierResponse || supplierResponse.suppliers.length === 0)) {
     return (
       <div className="mt-12 text-center py-12 bg-slate-50 rounded-2xl border border-slate-200 w-full max-w-2xl mx-auto">
         <svg
@@ -56,6 +56,10 @@ export const SupplierList: React.FC<SupplierListProps> = ({
 
   if (!hasSearched) {
     return null; // Não renderiza nada antes da primeira busca
+  }
+
+  if (!supplierResponse) {
+    return null;
   }
 
   return (
