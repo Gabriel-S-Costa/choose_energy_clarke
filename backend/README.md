@@ -89,7 +89,7 @@ Acesse `http://127.0.0.1:8000/docs` para visualizar a documentação interativa 
 
 Para ajudar no fluxo de desenvolvimento, os seguintes comandos estão disponíveis:
 
-- `make dev-up`: Inicia a aplicação usando o servidor do FastAPI.
+- `make up ou make dev-up`: Inicia a aplicação usando o servidor do FastAPI.
 - `make check`: Verifica a formatação e roda o linter utilizando o Ruff.
 - `make lint`: Corrige problemas identificados pelo linter e formata o código automaticamente.
 - `make test`: Roda toda a suíte de testes com o pytest.

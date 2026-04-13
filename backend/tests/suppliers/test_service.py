@@ -60,7 +60,6 @@ def test_search_suppliers():
     assert response.is_success
 
     response_data = response.json()
-    print(response_data)
     assert response_data
     assert set(response_data.keys()) == {'state_base_cost', 'available_types', 'estimated_savings_per_type', 'suppliers'}
 

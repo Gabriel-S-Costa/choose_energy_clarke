@@ -10,20 +10,20 @@ class Database:
 
     def __init__(self):
         engine_kwargs = {
-            "url": settings.DB_URL,
-            "echo": True,
+            'url': settings.DB_URL,
+            'echo': True,
         }
 
-        if settings.DB_URL.startswith("sqlite"):
-            engine_kwargs["connect_args"] = {"check_same_thread": False}
+        if settings.DB_URL.startswith('sqlite'):
+            engine_kwargs['connect_args'] = {'check_same_thread': False}
         else:
             engine_kwargs.update(
                 {
-                    "pool_size": settings.DB_POOL_SIZE,
-                    "max_overflow": settings.DB_MAX_OVERFLOW,
-                    "pool_timeout": settings.DB_POOL_TIMEOUT,
-                    "pool_recycle": settings.DB_POOL_RECYCLE,
-                    "pool_pre_ping": True,
+                    'pool_size': settings.DB_POOL_SIZE,
+                    'max_overflow': settings.DB_MAX_OVERFLOW,
+                    'pool_timeout': settings.DB_POOL_TIMEOUT,
+                    'pool_recycle': settings.DB_POOL_RECYCLE,
+                    'pool_pre_ping': True,
                 }
             )
 
