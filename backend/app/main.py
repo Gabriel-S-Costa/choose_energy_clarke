@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from app.core.config import settings
 from app.core.base_exception import AppBaseException
 from app.modules.suppliers.routes import router as suppliers_router
 
@@ -11,7 +12,7 @@ app.include_router(suppliers_router)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=['http://localhost:5173'],
+    allow_origins=["https://choose-energy-clarke-frontend.vercel.app/", "http://localhost:5173"],
     allow_credentials=True,
     allow_methods=['*'],
     allow_headers=['*'],
